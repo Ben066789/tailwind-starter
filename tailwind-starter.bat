@@ -16,7 +16,7 @@ type nul > src\index.html
 
 REM === Install Tailwind CLI ===
 echo Installing Tailwind CLI...
-call npm init -y
+call npm init -y	
 call npm install tailwindcss @tailwindcss/cli
 
 REM === Add content to input.css ===
@@ -45,4 +45,7 @@ REM === Run Tailwind CLI ===
 echo Starting Tailwind build...
 call npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
 
+cd %PROJECT_NAME%
+cd src
+start index.html
 pause
