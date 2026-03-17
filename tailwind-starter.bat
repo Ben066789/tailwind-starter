@@ -1,30 +1,27 @@
 @echo off
-title Tailwind CLI Setup
+title Tailwind CLI Auto Setup
 
-REM === Project name ===
-set PROJECT_NAME=tailwind-cli-app
+REM === ask for project name ===
+set /p PROJECT_NAME=Enter project folder name: 
+if "%PROJECT_NAME%"=="" set PROJECT_NAME=tailwind-cli-app
 
-REM === Create folders ===
+REM === create project ===
 mkdir %PROJECT_NAME%
 cd %PROJECT_NAME%
 mkdir src
 
-REM === Create files ===
-type nul > src\input.css
-type nul > src\output.css
-type nul > src\index.html
-
-REM === Install Tailwind CLI ===
-echo Installing Tailwind CLI...
-call npm init -y	
+REM === init + install ===
+echo Installing dependencies...
+call npm init -y
 call npm install tailwindcss @tailwindcss/cli
 
-REM === Add content to input.css ===
+REM === create files ===
 (
 echo @import "tailwindcss";
 ) > src\input.css
 
-REM === Add content to index.html ===
+type nul > src\output.css
+
 (
 echo ^<!doctype html^>
 echo ^<html^>
@@ -38,14 +35,16 @@ echo   ^<h1 class="text-3xl font-bold underline"^>
 echo     Hello world!
 echo   ^</h1^>
 echo ^</body^>
-echo ^</html^>
-) > src\index.html
+echo ^</html^>) > src\index.html
 
-REM === Run Tailwind CLI ===
-echo Starting Tailwind build...
-call npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
+REM === run tailwind ===
+echo Starting Tailwind...
+start cmd /k npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
 
-cd %PROJECT_NAME%
+REM === open project ===
 cd src
 start index.html
+
+echo.
+echo done.
 pause
