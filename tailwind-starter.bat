@@ -1,5 +1,21 @@
 @echo off
-title Tailwind CLI Auto Setup
+title tailwind + node.js(if not installed) 
+
+REM === check for node.js ===
+node -v >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo Node.js is not installed. getting node with winget...
+    winget install -e --id OpenJS.NodeJS.LTS
+    if %ERRORLEVEL% NEQ 0 (
+        echo failed to install node.js, u're cooked
+        pause
+        exit /b
+    )
+    echo node.js installed successfully. restarting script...
+    REM yabadabadoo
+    "%~f0"
+    exit /b
+)
 
 REM === ask for project name ===
 set /p PROJECT_NAME=Enter project folder name: 
@@ -35,7 +51,8 @@ echo   ^<h1 class="text-3xl font-bold underline"^>
 echo     Hello world!
 echo   ^</h1^>
 echo ^</body^>
-echo ^</html^>) > src\index.html
+echo ^</html^>
+) > src\index.html
 
 REM === run tailwind ===
 echo Starting Tailwind...
